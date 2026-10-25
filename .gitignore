@@ -1,0 +1,23 @@
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# .NET generated files
+**/bin/
+**/obj/
+
+# React / Node
+**/node_modules/
+**/dist/
+**/.vite/
+
+# Local environment and secrets
+**/appsettings.Development.json
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
