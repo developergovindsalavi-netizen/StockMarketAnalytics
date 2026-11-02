@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StockMarketAnalytics.Api.Data;
-using StockMarketAnalytics.Api.DTO;
 using StockMarketAnalytics.Api.DTOs;
 using StockMarketAnalytics.Api.Models;
 

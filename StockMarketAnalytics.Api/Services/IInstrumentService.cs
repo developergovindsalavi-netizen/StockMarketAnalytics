@@ -1,5 +1,4 @@
-﻿using StockMarketAnalytics.Api.DTO;
-using StockMarketAnalytics.Api.DTOs;
+﻿using StockMarketAnalytics.Api.DTOs;
 using StockMarketAnalytics.Api.Models;
 
 namespace StockMarketAnalytics.Api.Services

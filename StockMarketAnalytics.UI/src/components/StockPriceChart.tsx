@@ -27,18 +27,23 @@ function StockPriceChart({
 
   useEffect(() => {
     let cancelled = false
+    const controller = new AbortController();
 
     async function loadPrices() {
       try {
         setLoading(true)
         setError(null)
 
-        const data = await getHistoricalPrices(instrumentId)
+        const data = await getHistoricalPrices(instrumentId, controller.signal)
 
         if (!cancelled) {
           setPrices(data)
         }
       } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          return
+        }
+
         if (!cancelled) {
           setError(
             err instanceof Error
@@ -47,16 +52,19 @@ function StockPriceChart({
           )
         }
       } finally {
-        if (!cancelled) {
-          setLoading(false)
+        if (!controller.signal.aborted) {
+          setLoading(false);
         }
       }
+
+      
     }
 
     void loadPrices()
 
     return () => {
-      cancelled = true
+        cancelled = true
+        controller.abort()
     }
   }, [instrumentId])
 

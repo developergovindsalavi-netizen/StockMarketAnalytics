@@ -17,14 +17,15 @@ function App() {
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedExchange, setSelectedExchange] = useState('ALL');
-  const [debouncedSearch, setDebouncedSearch] = useState(searchTerm)
+  const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
+  const [selectedInstrument, setSelectedInstrument] = useState<Instrument | null>(null);
 
 
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedSearch(searchTerm)
       setPageNumber(1)
-    }, 1000)
+    }, 400)
 
     return () => clearTimeout(timerId)
   }, [searchTerm])
@@ -79,6 +80,17 @@ function App() {
       return matchesSearch && matchesExchange
     });
 
+  const handleInstrumentClick = (id: number) => {
+
+    const instrument = instruments.find(
+      s => s.instrumentId === id
+    );
+
+    if (instrument) {
+      setSelectedInstrument(instrument);
+    }
+  }
+
   return (
     <div className="app">
       <header className="app-header">
@@ -94,10 +106,13 @@ function App() {
             from one dashboard.
           </p>
         </section>
-<StockPriceChart
-  instrumentId={2}
-  symbol="TCS"
-/>
+
+        {(selectedInstrument) && <StockPriceChart
+          instrumentId={selectedInstrument.instrumentId}
+          symbol={selectedInstrument.symbol}
+        />}
+
+
         <section className="instruments-section">
           <h2>Stock Instruments</h2>
 
@@ -155,7 +170,14 @@ function App() {
 
                   <tbody>
                     {filteredInstruments.map((instrument) => (
-                      <tr key={instrument.instrumentId}>
+                      <tr key={instrument.instrumentId}
+                        onClick={() => handleInstrumentClick(instrument.instrumentId)}
+                        className={
+                          selectedInstrument?.instrumentId === instrument.instrumentId
+                            ? 'selected-row'
+                            : ''
+                        }
+                      >
                         <td>{instrument.symbol}</td>
                         <td>{instrument.companyName}</td>
                         <td>{instrument.exchange}</td>

@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using StockMarketAnalytics.Api.DTO;
 using StockMarketAnalytics.Api.DTOs;
 using StockMarketAnalytics.Api.Services;
 

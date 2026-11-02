@@ -15,13 +15,26 @@ namespace StockMarketAnalytics.Api.Services
 
         public async Task<IReadOnlyList<HistoricalPriceResponseDto>>
         GetByInstrumentAsync(
-            int instrumentId,
+            int instrumentId, DateTime? from, DateTime? to, int limit,
             CancellationToken cancellationToken)
         {
-            return await _context.HistoricalPrice
+            var query = _context.HistoricalPrice
                 .AsNoTracking()
-                .Where(s => s.InstrumentId == instrumentId)
-                .OrderBy(s => s.CandleTimeUtc)
+                .Where(s => s.InstrumentId == instrumentId);
+
+            if(from.HasValue)
+            {
+                query = query.Where(x=> x.CandleTimeUtc >= from);
+            }
+
+            if (to.HasValue)
+            {
+                query = query.Where(x => x.CandleTimeUtc <= to);
+            }
+
+
+            return await query.OrderBy(s => s.CandleTimeUtc)
+                .Take(limit)
                 .Select(s => new HistoricalPriceResponseDto
                 {
                     CandleTimeUtc = s.CandleTimeUtc,

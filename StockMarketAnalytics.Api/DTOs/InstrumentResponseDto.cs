@@ -1,4 +1,4 @@
-﻿namespace StockMarketAnalytics.Api.DTO
+﻿namespace StockMarketAnalytics.Api.DTOs
 {
     public class InstrumentResponseDto
     {

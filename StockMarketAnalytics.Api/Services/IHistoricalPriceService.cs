@@ -5,7 +5,7 @@ namespace StockMarketAnalytics.Api.Services
     public interface IHistoricalPriceService
     {
         Task<IReadOnlyList<HistoricalPriceResponseDto>> GetByInstrumentAsync(
-        int instrumentId,
+        int instrumentId, DateTime? from, DateTime? to, int limit,
         CancellationToken cancellationToken);
     }
 }
